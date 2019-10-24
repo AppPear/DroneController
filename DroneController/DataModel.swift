@@ -14,7 +14,7 @@ struct Coordinate: Encodable {
 }
 
 struct DataModel: Encodable {
-    var coordinate: Coordinate
+    var coordinate: simd_float3
     var pointCloud: [Coordinate]
 }
 

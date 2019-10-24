@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		306D92C42355E1800074E806 /* VoxelPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306D92C32355E1800074E806 /* VoxelPoint.swift */; };
 		30991C7123549C31008A9EC8 /* Voxel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30991C7023549C31008A9EC8 /* Voxel.swift */; };
 		30991C7323549EF9008A9EC8 /* VoxelElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30991C7223549EF9008A9EC8 /* VoxelElement.swift */; };
 		30991C782354B3B1008A9EC8 /* VoxelGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30991C772354B3B1008A9EC8 /* VoxelGrid.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		306D92C32355E1800074E806 /* VoxelPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoxelPoint.swift; sourceTree = "<group>"; };
 		30991C7023549C31008A9EC8 /* Voxel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Voxel.swift; sourceTree = "<group>"; };
 		30991C7223549EF9008A9EC8 /* VoxelElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoxelElement.swift; sourceTree = "<group>"; };
 		30991C772354B3B1008A9EC8 /* VoxelGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoxelGrid.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				30991C772354B3B1008A9EC8 /* VoxelGrid.swift */,
 				30991C7223549EF9008A9EC8 /* VoxelElement.swift */,
 				30991C7023549C31008A9EC8 /* Voxel.swift */,
+				306D92C32355E1800074E806 /* VoxelPoint.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				30B756B0234E442E00400E65 /* ViewController.swift in Sources */,
 				30FA60D4234FA2E700564BD8 /* DataModel.swift in Sources */,
 				30FA60D2234FA07400564BD8 /* Server.swift in Sources */,
+				306D92C42355E1800074E806 /* VoxelPoint.swift in Sources */,
 				30991C7323549EF9008A9EC8 /* VoxelElement.swift in Sources */,
 				30B756AE234E442E00400E65 /* AppDelegate.swift in Sources */,
 				30991C7123549C31008A9EC8 /* Voxel.swift in Sources */,

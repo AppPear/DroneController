@@ -10,16 +10,20 @@ import Foundation
 import SceneKit
 
 struct VoxelElement: Comparable {
-    let size:simd_float3 = [0.3,0.3,0.5]
+    let size:simd_float2 = [30,30]
     var voxel: Voxel
-    var points: [simd_float3]
-    var density: CGFloat {
-        return CGFloat(points.count)
-//        return points.count == 0 ? 0.0 : min(1,30.0/CGFloat(points.count))
+    var points: [VoxelPoint]
+    var density: Int {
+        return points.count
     }
     
-    init(mid: simd_float3){
+    init(mid: simd_float2){
         self.voxel = Voxel(mid: mid, size: self.size)
+        self.points = []
+    }
+    
+    init(min: simd_float2){
+        self.voxel = Voxel(min: min, max: min+size)
         self.points = []
     }
     

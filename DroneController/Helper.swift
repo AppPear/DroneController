@@ -18,3 +18,13 @@ extension simd_float3: Comparable {
         return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z
     }
 }
+
+extension simd_float2: Comparable {
+    public static func < (lhs: simd_float2, rhs: simd_float2) -> Bool {
+        return lhs.x < rhs.x && lhs.y < rhs.y
+    }
+    
+    public static func == (lhs: simd_float2, rhs: simd_float2) -> Bool {
+        return lhs.x == rhs.x && lhs.y == rhs.y
+    }
+}

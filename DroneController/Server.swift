@@ -13,7 +13,7 @@ class DroneServer: WebSocketDelegate {
     let socket:WebSocket
     let encoder = JSONEncoder()
     init() {
-        self.socket = WebSocket(url: URL(string: "ws://192.168.2.56:8000")!)
+        self.socket = WebSocket(url: URL(string: "ws://192.168.132.130:8000")!)
         socket.delegate = self
         socket.connect()
     }

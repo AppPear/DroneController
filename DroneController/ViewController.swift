@@ -13,70 +13,46 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     var server: DroneServer!
-    let updateInterval: TimeInterval = 1
+    let updateInterval: TimeInterval = 0.2
     var oldTime: TimeInterval = 0
     var pointCloud: Dictionary<UInt64, simd_float3> = [:]
-    var voxelGrid:VoxelGrid!
+    var voxelPoints = [simd_float3]()
+    var voxelGrid: VoxelGrid!
+    var orientation: UIInterfaceOrientation!
+    var viewportsize: CGSize!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Set the view's delegate
         sceneView.delegate = self
-        
-        // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
         sceneView.debugOptions = [.showFeaturePoints]
-        
-        // Create a new scene
         let scene = SCNScene()
-        
-        // Set the scene to the view
         sceneView.scene = scene
-        
         server = DroneServer()
-        voxelGrid = VoxelGrid(mid: [0,0,0])
+        voxelGrid = VoxelGrid(bounds: self.sceneView!.bounds.size)
+        orientation = UIApplication.shared.statusBarOrientation
+        viewportsize = self.sceneView.bounds.size
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
-        
-        // Tell the session to automatically detect horizontal planes
         configuration.planeDetection = .horizontal
-
-        // Run the view's session
         sceneView.session.run(configuration)
     }
     
-    func updateVoxel(mid: simd_float3){
-        self.voxelGrid.clear()
-        self.voxelGrid.mid = mid
-        for point in pointCloud.values {
-            self.voxelGrid.addPointToVoxel(point: point)
+    func updateVoxel(camera: ARCamera){
+        if(voxelPoints.count > 3000) {
+            voxelPoints = voxelPoints.suffix(3000)
         }
-        self.voxelGrid.getDensity()
-//        self.voxelGrid.getVoxelGridNode()
-//        if (!self.sceneView.scene.rootNode.childNodes.contains(self.voxelGrid.gridNode!)){
-//            self.sceneView.scene.rootNode.addChildNode(self.voxelGrid.gridNode!)
-//        }
+        voxelGrid.clear()
+        for point in voxelPoints {
+            let projectedPoint = camera.projectPoint(point, orientation: orientation, viewportSize: viewportsize)
+            let voxelP = VoxelPoint(spacePoint: point, projectedPoint: projectedPoint)
+//            voxelGrid.addPoint(point: voxelP)
+        }
+//        voxelGrid.printDensityMatrix()
     }
-    
-
 
     // MARK: - ARSCNViewDelegate
-
-    /*
-     // Override to create and configure nodes for anchors added to the view's session.
-     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-     let node = SCNNode()
-
-     return node
-     }
-     */
-
-    // The following functions are automatically called when the ARSessionView adds, updates, and removes anchors
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval){
         if (abs(time-oldTime) > updateInterval) {
@@ -88,30 +64,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     if pointCloud[rawFeaturePoints.identifiers[i]] == nil {
                         pointCloud[rawFeaturePoints.identifiers[i]] = rawFeaturePoints.points[i]
                         newPoints.append(Coordinate(position: rawFeaturePoints.points[i]))
+                        voxelPoints.append(rawFeaturePoints.points[i])
                     }
                 }
             }
+//            updateVoxel(camera: frame.camera)
             let position = SCNVector3(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
-            updateVoxel(mid: simd_float3(position) + [0,0,-0.5])
-            server.sendData(data: DataModel(coordinate: Coordinate(position: simd_float3(position)), pointCloud: newPoints))
+            server.sendData(data: DataModel(coordinate: simd_float3(position), pointCloud: newPoints))
             oldTime = time
         }
-        
-    }
-
-
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
-        
-    }
-    
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
-    }
-    
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
     }
 }

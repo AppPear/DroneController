@@ -10,18 +10,18 @@ import Foundation
 import SceneKit
 
 struct Voxel {
-    var min: simd_float3 // lower left back corner
-    var max: simd_float3 // upper right front corner
-    var mid: simd_float3 {
+    var min: simd_float2 // lower left back corner
+    var max: simd_float2 // upper right front corner
+    var mid: simd_float2 {
         return (min + max) / 2
     }
     
-    init(mid: simd_float3, size: simd_float3) {
+    init(mid: simd_float2, size: simd_float2) {
         self.min = mid - (size/2)
         self.max = mid + (size/2)
     }
     
-    init(min: simd_float3, max: simd_float3){
+    init(min: simd_float2, max: simd_float2){
         self.min = min
         self.max = max
     }
