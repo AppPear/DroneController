@@ -13,6 +13,13 @@ struct VoxelElement: Comparable {
     let size:simd_float2 = [30,30]
     var voxel: Voxel
     var points: [VoxelPoint]
+    var avg: simd_float3 {
+        var avg: simd_float3 = [0,0,0]
+        for point in points {
+            avg = avg + point.spacePoint
+        }
+        return avg / Float(points.count)
+    }
     var density: Int {
         return points.count
     }

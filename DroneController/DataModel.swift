@@ -15,6 +15,7 @@ struct Coordinate: Encodable {
 
 struct DataModel: Encodable {
     var coordinate: simd_float3
+    var timeStamp: String
     var pointCloud: [Coordinate]
 }
 
